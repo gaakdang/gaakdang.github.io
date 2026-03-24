@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>타가다</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Pretendard", "Noto Sans KR", "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: #ffffff;
+      padding: 20px;
+    }
+
+    .container {
+      width: min(92vw, 480px);
+      padding: 32px 24px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    .page-name {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      word-break: keep-all;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      font-weight: 700;
+      word-break: keep-all;
+    }
+
+    p {
+      margin: 0 0 24px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 15px;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    .button-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .lang-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 18px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #ffffff;
+      color: #111827;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .lang-btn:hover {
+      transform: translateY(-2px);
+      background: #f3f4f6;
+    }
+
+    .lang-btn:active {
+      transform: translateY(0);
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 28px 18px;
+      }
+
+      .page-name {
+        font-size: 26px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .lang-btn {
+        font-size: 15px;
+        padding: 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page-name" id="pageName">타가다</div>
+    <h1 id="mainTitle">언어를 선택해 주세요</h1>
+    <p id="mainDescription">원하시는 언어 버튼을 누르면 해당 페이지로 이동합니다.</p>
+
+    <div class="button-list">
+      <button class="lang-btn" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
+      <button class="lang-btn" data-lang="zhHant">中文（繁體）</button>
+      <button class="lang-btn" data-lang="zhHans">中文（简体）</button>
+    </div>
+  </div>
+
+  <script>
+    const ROUTES = {
+      tagada: {
+        names: {
+          ko: '타가다',
+          en: 'Tagada',
+          ja: 'タガダ',
+          zhHant: '塔加達',
+          zhHans: '塔加达'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%ED%83%80%EA%B0%80%EB%8B%A4-%EB%94%94%EC%8A%A4%EC%BD%94%ED%8C%A1%ED%8C%A1-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/tagada-ride-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%82%BF%E3%82%AC%E3%83%80%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/%E5%A1%94%E5%8A%A0%E9%81%94%E4%B9%98%E5%9D%90%E9%A0%88%E7%9F%A5',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/%E5%A1%94%E5%8A%A0%E8%BE%BE%E4%B9%98%E5%9D%90%E9%A1%BB%E7%9F%A5'
+        }
+      },
+      carousel: {
+        names: {
+          ko: '회전목마',
+          en: 'Carousel',
+          ja: 'メリーゴーラウンド',
+          zhHant: '旋轉木馬',
+          zhHans: '旋转木马'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%ED%9A%8C%EC%A0%84%EB%AA%A9%EB%A7%88-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/carousel-ride-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%83%A1%E3%83%AA%E3%83%BC%E3%82%B4%E3%83%BC%E3%83%A9%E3%82%A6%E3%83%B3%E3%83%89%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/%E6%97%8B%E8%BD%89%E6%9C%A8%E9%A6%AC%E4%B9%98%E5%9D%90%E9%A0%88%E7%9F%A5',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/%E6%97%8B%E8%BD%AC%E6%9C%A8%E9%A9%AC%E4%B9%98%E5%9D%90%E9%A1%BB%E7%9F%A5'
+        }
+      },
+      'carnival-shooting': {
+        names: {
+          ko: '카니발 게임 - 사격',
+          en: 'Carnival Game - Shooting',
+          ja: 'カーニバルゲーム - 射撃',
+          zhHant: '嘉年華遊戲 - 射擊',
+          zhHans: '嘉年华游戏 - 射击'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%EC%B9%B4%EB%8B%88%EB%B0%9C-%EA%B2%8C%EC%9E%84-%EC%82%AC%EA%B2%A9-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/carnival-shooting-game-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%82%AB%E3%83%BC%E3%83%8B%E3%83%90%E3%83%AB%E3%82%B2%E3%83%BC%E3%83%A0%EF%BC%88%E5%B0%84%E6%92%83%EF%BC%89%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E8%8F%AF%E9%81%8A%E6%88%B2%EF%BC%88%E5%B0%84%E6%93%8A%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E5%8D%8E%E6%B8%B8%E6%88%8F%EF%BC%88%E5%B0%84%E5%87%BB%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E'
+        }
+      },
+      'carnival-dart': {
+        names: {
+          ko: '카니발 게임 - 풍선다트',
+          en: 'Carnival Game - Balloon Darts',
+          ja: 'カーニバルゲーム - 風船ダーツ',
+          zhHant: '嘉年華遊戲 - 氣球飛鏢',
+          zhHans: '嘉年华游戏 - 气球飞镖'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%EC%B9%B4%EB%8B%88%EB%B0%9C-%EA%B2%8C%EC%9E%84-%ED%92%8D%EC%84%A0%EB%8B%A4%ED%8A%B8-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/carnival-balloon-darts-game-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%82%AB%E3%83%BC%E3%83%8B%E3%83%90%E3%83%AB%E3%82%B2%E3%83%BC%E3%83%A0%EF%BC%88%E9%A2%A8%E8%88%B9%E3%83%80%E3%83%BC%E3%83%84%EF%BC%89%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E8%8F%AF%E9%81%8A%E6%88%B2%EF%BC%88%E6%B0%A3%E7%90%83%E9%A3%9B%E9%8F%A2%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E5%8D%8E%E6%B8%B8%E6%88%8F%EF%BC%88%E6%B0%94%E7%90%83%E9%A3%9E%E9%95%96%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E'
+        }
+      },
+      'carnival-basketball': {
+        names: {
+          ko: '카니발 게임 - 농구',
+          en: 'Carnival Game - Basketball',
+          ja: 'カーニバルゲーム - バスケットボール',
+          zhHant: '嘉年華遊戲 - 籃球',
+          zhHans: '嘉年华游戏 - 篮球'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%EC%B9%B4%EB%8B%88%EB%B0%9C-%EA%B2%8C%EC%9E%84-%EB%86%8D%EA%B5%AC-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/carnival-basketball-game-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%82%AB%E3%83%BC%E3%83%8B%E3%83%90%E3%83%AB%E3%82%B2%E3%83%BC%E3%83%A0%EF%BC%88%E3%83%90%E3%82%B9%E3%82%B1%E3%83%83%E3%83%88%E3%83%9C%E3%83%BC%E3%83%AB%EF%BC%89%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E8%8F%AF%E9%81%8A%E6%88%B2%EF%BC%88%E7%B1%83%E7%90%83%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/%E5%98%89%E5%B9%B4%E5%8D%8E%E6%B8%B8%E6%88%8F%EF%BC%88%E7%AF%AE%E7%90%83%EF%BC%89%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E'
+        }
+      },
+      vr: {
+        names: {
+          ko: '체험형 VR',
+          en: 'Immersive VR',
+          ja: '体験型VR',
+          zhHant: '沉浸式VR',
+          zhHans: '沉浸式VR'
+        },
+        links: {
+          ko: 'https://r6sonya.wixsite.com/sambogame/post/%EC%9E%90%EC%9D%B4%EB%A1%9C-vr-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4',
+          en: 'https://r6sonya.wixsite.com/sambogame/post/gyro-vr-space-delta-ride-information',
+          ja: 'https://r6sonya.wixsite.com/sambogame/post/%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%ADvr%E3%81%8A%E3%82%88%E3%81%B3%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9%E3%83%87%E3%83%AB%E3%82%BF%E5%88%A9%E7%94%A8%E6%A1%88%E5%86%85',
+          zhHant: 'https://r6sonya.wixsite.com/sambogame/post/gyro-vr-%E8%88%87-space-delta-%E4%B9%98%E5%9D%90%E9%A0%88%E7%9F%A5',
+          zhHans: 'https://r6sonya.wixsite.com/sambogame/post/gyro-vr-%E4%B8%8E-space-delta-%E4%B9%98%E5%9D%90%E9%A1%BB%E7%9F%A5'
+        }
+      }
+    };
+
+    const TYPE_ALIASES = {
+      carnival: 'carnival-shooting'
+    };
+
+    const TEXT_MAP = {
+      ko: {
+        heading: '언어를 선택해 주세요',
+        description: '원하시는 언어 버튼을 누르면 해당 페이지로 이동합니다.'
+      },
+      en: {
+        heading: 'Please select a language',
+        description: 'Click your preferred language button to go to the corresponding page.'
+      },
+      ja: {
+        heading: '言語を選択してください',
+        description: 'ご希望の言語ボタンを押すと、該当ページへ移動します。'
+      },
+      zhHant: {
+        heading: '請選擇語言',
+        description: '點擊您想要的語言按鈕，即可前往對應頁面。'
+      },
+      zhHans: {
+        heading: '请选择语言',
+        description: '点击您想要的语言按钮，即可前往对应页面。'
+      }
+    };
+
+    function normalizeLang(lang) {
+      if (!lang) {
+        return null;
+      }
+
+      const value = String(lang).toLowerCase();
+
+      if (value.startsWith('ko')) return 'ko';
+      if (value.startsWith('en')) return 'en';
+      if (value.startsWith('ja')) return 'ja';
+      if (value.startsWith('zh-tw') || value.startsWith('zh-hk') || value.startsWith('zh-mo') || value.includes('hant')) return 'zhHant';
+      if (value.startsWith('zh-cn') || value.startsWith('zh-sg') || value.includes('hans') || value.startsWith('zh')) return 'zhHans';
+
+      return null;
+    }
+
+    function getTypeFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const rawType = params.get('type') || 'tagada';
+      const resolvedType = TYPE_ALIASES[rawType] || rawType;
+      return ROUTES[resolvedType] ? resolvedType : 'tagada';
+    }
+
+    function getLangFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const forcedLang = normalizeLang(params.get('lang'));
+      if (forcedLang) {
+        return forcedLang;
+      }
+      return normalizeLang(navigator.language) || 'ko';
+    }
+
+    const currentType = getTypeFromQuery();
+    const currentLang = getLangFromQuery();
+    const currentRoute = ROUTES[currentType];
+    const currentText = TEXT_MAP[currentLang] || TEXT_MAP.ko;
+    const localizedPageName = currentRoute.names[currentLang] || currentRoute.names.ko;
+
+    document.title = localizedPageName;
+    document.documentElement.lang = currentLang === 'zhHant'
+      ? 'zh-Hant'
+      : currentLang === 'zhHans'
+      ? 'zh-Hans'
+      : currentLang;
+    document.getElementById('pageName').textContent = localizedPageName;
+    document.getElementById('mainTitle').textContent = currentText.heading;
+    document.getElementById('mainDescription').textContent = currentText.description;
+
+    document.querySelectorAll('.lang-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const langKey = button.dataset.lang;
+        const target = currentRoute.links[langKey];
+        if (target) {
+          window.location.href = target;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
